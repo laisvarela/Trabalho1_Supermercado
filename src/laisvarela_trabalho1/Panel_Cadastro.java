@@ -418,7 +418,7 @@ public class Panel_Cadastro extends javax.swing.JPanel {
                         // se não, camposVazios = true e impede o erro de LocalDate.parse no if (x = falase)
                         camposVazios = true;
                         JOptionPane.showMessageDialog(null, "Data de nascimento não existe!", "Erro", JOptionPane.ERROR_MESSAGE);
-                        fTxt_dataNasci.setText(null);
+                        fTxt_dataNasci.setValue("");
                         break;
                     }
                     if (camposVazios == false) {
@@ -427,8 +427,20 @@ public class Panel_Cadastro extends javax.swing.JPanel {
                                 || LocalDate.parse(fTxt_dataNasci.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")).isBefore(LocalDate.ofEpochDay(1823))) {
                             camposVazios = true;
                             JOptionPane.showMessageDialog(null, "Data de nascimento inválida!", "Erro", JOptionPane.ERROR_MESSAGE);
-                            fTxt_dataNasci.setText(null);
+                            fTxt_dataNasci.setValue("");
                             break;
+                        }
+                        if (!Window.clientList.isEmpty()) {
+                            for (Client item : Window.clientList) {
+                                if (fTxt_cpf.getText().equals(item.getCpf())) {
+                                    JOptionPane.showMessageDialog(null, "CPF já cadastrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                                    fTxt_cpf.setValue("");
+                                }
+                            }
+                        } else if (fTxt_cpf.getText().equals(Window.loginADM)) {
+                            JOptionPane.showMessageDialog(null, "CPF já cadastrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                            fTxt_cpf.setText(null);
+                            fTxt_cpf.setValue("");
                         }
                     }
                 }
@@ -450,6 +462,8 @@ public class Panel_Cadastro extends javax.swing.JPanel {
                             cb_pagamento.getSelectedItem().toString(), LocalDate.parse(fTxt_dataNasci.getText(),
                             DateTimeFormatter.ofPattern("dd/MM/yyyy")), txt_login.getText(), txt_senha.getText());
                     Window.clientList.add(client);
+                    Panel_ADM adm = new Panel_ADM();
+                    adm.atualizaTree();
                     limpar();
                 }
                 Window.login = new Panel_Login();

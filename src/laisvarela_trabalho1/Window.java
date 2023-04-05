@@ -1,20 +1,20 @@
 package laisvarela_trabalho1;
 
 import java.awt.BorderLayout;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.LinkedList;
 
 public class Window extends javax.swing.JFrame {
 
     static Panel_Cadastro cadastro;
     static Panel_Login login;
-    static Panel_InicioADM inicioADM;
-    static Panel_InicioClient inicioClient;
-    static protected String loginADM = "login1234";
+    static Panel_ADM inicioADM;
+    static Panel_Cliente inicioClient;
+    static protected String loginADM = "000.000.000-00";
     static protected String senhaADM = "1234";
     static protected String emailADM = "adm@gmail.com";
     static protected LinkedList<Client> clientList = new LinkedList<>();
-    static protected ArrayList<Produto> produtoList = new ArrayList<>();
+    static protected LinkedList<Produto> produtoList = new LinkedList<>();
 
     public Window() {
         initComponents();
@@ -28,6 +28,12 @@ public class Window extends javax.swing.JFrame {
         Window w = new Window();
         w.setVisible(true);
         w.setLocationRelativeTo(null);
+        Produto produto = new Produto("banana", "b123t4", 10f, LocalDate.of(2023, 05, 21));
+        produtoList.add(produto);
+        produto = new Produto("abacate", "a14c65", 15f, LocalDate.of(2023, 10, 21));
+        produtoList.add(produto);
+        Client cliente = new Client("joão", "111.111.111-11", "boleto", "1");
+        clientList.add(cliente);
     }
 
     @SuppressWarnings("unchecked")

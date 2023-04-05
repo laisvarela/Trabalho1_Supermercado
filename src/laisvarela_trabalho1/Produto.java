@@ -1,10 +1,28 @@
 package laisvarela_trabalho1;
 
+import java.time.LocalDate;
+
 public class Produto {
 
     private String nome;
-    private int codigo;
+    private String codigo;
     private Float valor;
+    private LocalDate dataValidade;
+
+    public Produto(String nome, String codigo, Float valor, LocalDate dataValidade) {
+        this.nome = nome;
+        this.codigo = codigo;
+        this.valor = valor;
+        this.dataValidade = dataValidade;
+    }
+
+    public LocalDate getDataValidade() {
+        return dataValidade;
+    }
+
+    public void setDataValidade(LocalDate dataValidade) {
+        this.dataValidade = dataValidade;
+    }
 
     public String getNome() {
         return nome;
@@ -14,11 +32,11 @@ public class Produto {
         this.nome = nome;
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
@@ -29,6 +47,5 @@ public class Produto {
     public void setValor(Float valor) {
         this.valor = valor;
     }
-    
-    
+
 }

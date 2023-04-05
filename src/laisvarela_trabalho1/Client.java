@@ -45,6 +45,13 @@ public class Client {
         this.senha = senha;
     }
 
+    public Client(String nome, String cpf, String pagamento, String senha) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.pagamento = pagamento;
+        this.senha = senha;
+    }
+
     public String getNome() {
         return nome;
     }
