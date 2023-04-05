@@ -2,6 +2,7 @@ package laisvarela_trabalho1;
 
 import java.awt.BorderLayout;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.LinkedList;
 
 public class Window extends javax.swing.JFrame {
@@ -14,6 +15,7 @@ public class Window extends javax.swing.JFrame {
     static protected String senhaADM = "1234";
     static protected LinkedList<Client> clientList = new LinkedList<>();
     static protected LinkedList<Produto> produtoList = new LinkedList<>();
+    static String user, pagamento;
 
     public Window() {
         initComponents();
@@ -31,7 +33,16 @@ public class Window extends javax.swing.JFrame {
         produtoList.add(produto);
         produto = new Produto("abacate", "a14c65", 15f, LocalDate.of(2023, 10, 21), 3);
         produtoList.add(produto);
-        Client cliente = new Client("111.111.111-11", "1");
+        
+        Client cliente = new Client("Geraldo", "111.111.111-11", "geraldo@email.com",
+                "(49) 9 8888-8888", "casa", 1, "boleto",
+                LocalDate.of(1979, 04, 15), "Geraldinho.Gameplays69", "1");
+        clientList.add(cliente);
+        
+        // cliente com pagamento em cartão
+        cliente = new Client("Lais Varela", "222.222.222-22", "lais@ifsc.aluno.com",
+                "(49) 9 9999-9999", "ifsc", 1, "cartão", "Débido - Mastercard",
+                LocalDate.of(1999, 06, 21), "Lais", "2");
         clientList.add(cliente);
     }
 
