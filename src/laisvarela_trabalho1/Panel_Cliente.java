@@ -1,5 +1,6 @@
 package laisvarela_trabalho1;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import javax.swing.JFrame;
@@ -10,12 +11,15 @@ import javax.swing.table.DefaultTableModel;
 public class Panel_Cliente extends javax.swing.JPanel {
 
     DefaultTableModel modelo = new DefaultTableModel();
+    LinkedList<Supermercado> carrinho = new LinkedList<>();
+    LinkedList<Float> totalList = new LinkedList<>();
+    Supermercado sm = new Supermercado();
 
     public Panel_Cliente() {
         initComponents();
         modelo = (DefaultTableModel) tb_produtos.getModel();
         for (Produto item : Window.produtoList) {
-            modelo.addRow(new Object[]{item.getNome(), item.getDataValidade().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+            modelo.addRow(new Object[]{item.getNome(), item.getCodigo(), item.getDataValidade().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 item.getValor(), false, item.getQtd()});
         }
     }
@@ -43,7 +47,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lb_total = new javax.swing.JLabel();
 
         menu_delogar.setText("jMenuItem1");
         pop_deslogar.add(menu_delogar);
@@ -86,14 +90,14 @@ public class Panel_Cliente extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Nome", "Validade", "Preço", "Carrinho", "Quantidade"
+                "Nome", "Código", "Validade", "Preço", "Carrinho", "Quantidade"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.Float.class, java.lang.Boolean.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Float.class, java.lang.Boolean.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -106,8 +110,13 @@ public class Panel_Cliente extends javax.swing.JPanel {
         });
         tb_produtos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tb_produtos.setGridColor(new java.awt.Color(51, 102, 0));
-        tb_produtos.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        tb_produtos.setSelectionBackground(new java.awt.Color(204, 204, 255));
         tb_produtos.getTableHeader().setReorderingAllowed(false);
+        tb_produtos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tb_produtosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tb_produtos);
         if (tb_produtos.getColumnModel().getColumnCount() > 0) {
             tb_produtos.getColumnModel().getColumn(0).setResizable(false);
@@ -115,6 +124,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
             tb_produtos.getColumnModel().getColumn(2).setResizable(false);
             tb_produtos.getColumnModel().getColumn(3).setResizable(false);
             tb_produtos.getColumnModel().getColumn(4).setResizable(false);
+            tb_produtos.getColumnModel().getColumn(5).setResizable(false);
         }
 
         bt_sair.setBackground(new java.awt.Color(255, 255, 255));
@@ -131,6 +141,11 @@ public class Panel_Cliente extends javax.swing.JPanel {
         bt_qtdSubtrair.setBackground(new java.awt.Color(255, 255, 255));
         bt_qtdSubtrair.setText("-");
         bt_qtdSubtrair.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        bt_qtdSubtrair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_qtdSubtrairMouseClicked(evt);
+            }
+        });
 
         bt_qtdSomar.setBackground(new java.awt.Color(255, 255, 255));
         bt_qtdSomar.setText("+");
@@ -192,7 +207,8 @@ public class Panel_Cliente extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         jLabel4.setText("Total: R$");
 
-        jLabel6.setText("jLabel6");
+        lb_total.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        lb_total.setText("0.0");
 
         javax.swing.GroupLayout pn_totalLayout = new javax.swing.GroupLayout(pn_total);
         pn_total.setLayout(pn_totalLayout);
@@ -210,8 +226,8 @@ public class Panel_Cliente extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_totalLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addGap(33, 33, 33)
-                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lb_total)
                 .addContainerGap())
         );
         pn_totalLayout.setVerticalGroup(
@@ -220,7 +236,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
                 .addGap(0, 11, Short.MAX_VALUE)
                 .addGroup(pn_totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel6))
+                    .addComponent(lb_total))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pn_totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_confirmar)
@@ -294,24 +310,126 @@ public class Panel_Cliente extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_bt_sairMouseClicked
-    private void checarRowSelecionado() {
-        int row = tb_produtos.getSelectedRow();
-        Object rowProdtuo = null;
-        if (tb_produtos.isRowSelected(row)) {
-            rowProdtuo = modelo.getValueAt(row, 0);
-        }
+    private int checarRowSelecionado(String operador) {
+        int row = tb_produtos.getSelectedRow(); // obtem a linha selecionada
+        Object rowProdtuo = null, rowValor = null;
 
-        for (Produto item : Window.produtoList) {
-            if (rowProdtuo.equals(item.getNome())) {
-                item.setQtd(50);
-                modelo.setValueAt(item.getQtd(), row, 4);
+        float x = 0;
+        boolean check = (boolean) modelo.getValueAt(row, 4);
+        if (tb_produtos.isRowSelected(row)) { // verifica se a linha está seleciodada
+            rowProdtuo = modelo.getValueAt(row, 1); // obtem a string contida na linha selecionada, coluna Código
+            rowValor = modelo.getValueAt(row, 3);
+            int valor = (int) modelo.getValueAt(row, 5); // pega o valor contido na linha selecionada e na coluna Quantidade
+            lb_qtd.setText(String.valueOf(valor)); // altera o valor da lb_qtd
+            if (operador.equals("soma")) { // Verifica que o botão soma foi pressionado
+                for (Produto item : Window.produtoList) {
+                    if (rowProdtuo.equals(item.getCodigo())) {
+                        item.setQtd(item.getQtd() + 1);
+                        modelo.setValueAt(item.getQtd(), row, 5); // atualiza o da quantidade
+                        valor = (int) modelo.getValueAt(row, 5);
+                        lb_qtd.setText(String.valueOf(valor)); // atualiza da lb_qtd
+                        if (!carrinho.isEmpty()) {
+                            for (Supermercado supermercado : carrinho) {
+                                if (rowProdtuo.equals(supermercado.getCodigo())) {
+                                    supermercado.setQtd(supermercado.getQtd() + 1);
+                                    if (rowValor.equals(supermercado.getValor()) && check == true) {
+                                        sm.setTotal(sm.getTotal() + supermercado.getValor());
+                                        lb_total.setText(String.valueOf(sm.getTotal()));
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            } else if (operador.equals("subtrair")) {
+                if (valor > 0) {
+                    for (Produto item : Window.produtoList) {
+                        if (rowProdtuo.equals(item.getCodigo())) {
+                            item.setQtd(item.getQtd() - 1);
+                            modelo.setValueAt(item.getQtd(), row, 5);
+                            valor = (int) modelo.getValueAt(row, 5);
+                            lb_qtd.setText(String.valueOf(valor));
+                            if (!carrinho.isEmpty()) {
+                                for (Supermercado supermercado : carrinho) {
+                                    if (rowProdtuo.equals(supermercado.getCodigo())) {
+                                        supermercado.setQtd(supermercado.getQtd() - 1);
+                                        if (rowValor.equals(supermercado.getValor()) && check == true) {
+                                            sm.setTotal(sm.getTotal() - supermercado.getValor());
+                                            lb_total.setText(String.valueOf(sm.getTotal()));
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Quantidade igual a zero!", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            } else if (operador.equals("checkBox")) {
+                boolean adiciona = false;
+                if (check == true) {
+                    for (Supermercado item : carrinho) {
+                        if (rowProdtuo.equals(item.getCodigo())) {
+                            adiciona = true;
+                        }
+                    }
+                    if (adiciona == false) {
+                        Supermercado supermercado = new Supermercado((String) modelo.getValueAt(row, 0),
+                                (String) modelo.getValueAt(row, 1), LocalDate.parse((CharSequence) modelo.getValueAt(row, 2), DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                                (float) modelo.getValueAt(row, 3), (int) modelo.getValueAt(row, 5));
+                        carrinho.add(supermercado);
+                    }
+
+                    if (lb_total.getText().equals("0.0")) {
+                        x = total((float) modelo.getValueAt(row, 3), (int) modelo.getValueAt(row, 5));
+                        sm.setTotal(x);
+                        lb_total.setText(String.valueOf(sm.getTotal()));
+                    } else if (adiciona == false) {
+                        x = total((float) modelo.getValueAt(row, 3), (int) modelo.getValueAt(row, 5));
+                        sm.setTotal(sm.getTotal() + x);
+                        lb_total.setText(String.valueOf(sm.getTotal()));
+                    }
+
+                } else {
+                    if (!carrinho.isEmpty()) {
+                        for (Supermercado item : carrinho) {
+                            if (rowValor.equals(item.getValor())) {
+                                carrinho.remove(item);
+                                x = total(item.getValor(), item.getQtd());
+                                sm.setTotal(sm.getTotal() - x);
+                                lb_total.setText(String.valueOf(sm.getTotal()));
+                            }
+                        }
+                    }
+
+                }
             }
+
         }
+        return row;
+    }
+
+    private float total(float valor, int qtd) {
+        return valor * qtd;
     }
     private void bt_qtdSomarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_qtdSomarMouseClicked
-        checarRowSelecionado();
+        checarRowSelecionado("soma");
 
     }//GEN-LAST:event_bt_qtdSomarMouseClicked
+
+    private void bt_qtdSubtrairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_qtdSubtrairMouseClicked
+        checarRowSelecionado("subtrair");
+    }//GEN-LAST:event_bt_qtdSubtrairMouseClicked
+
+    private void tb_produtosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_produtosMouseClicked
+        checarRowSelecionado("");
+        boolean x = (boolean) modelo.getValueAt(checarRowSelecionado(""), 4);
+        if (tb_produtos.isRowSelected(checarRowSelecionado("")) && (x == true || x == false)) {
+            checarRowSelecionado("checkBox");
+        }
+    }//GEN-LAST:event_tb_produtosMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -323,13 +441,13 @@ public class Panel_Cliente extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lb_qtd;
+    private javax.swing.JLabel lb_total;
     private javax.swing.JMenuItem menu_delogar;
     private javax.swing.JPanel pn_qtd;
     private javax.swing.JPanel pn_total;
