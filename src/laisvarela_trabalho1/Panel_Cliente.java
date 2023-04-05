@@ -46,7 +46,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
         menu_delogar.setText("jMenuItem1");
         pop_deslogar.add(menu_delogar);
 
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(217, 215, 215));
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 

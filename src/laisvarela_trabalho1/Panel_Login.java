@@ -256,6 +256,7 @@ public class Panel_Login extends javax.swing.JPanel {
     }//GEN-LAST:event_txt_userKeyPressed
 
     private void proximo() {
+        boolean x = false;
         if (!pn_senha.isVisible()) {
             if (txt_user.getText().equals(Window.loginADM)) {
                 this.pn_login.setVisible(false);
@@ -268,9 +269,11 @@ public class Panel_Login extends javax.swing.JPanel {
                             this.pn_login.setVisible(false);
                             this.pn_senha.setVisible(true);
                             janela.pack();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Usuário inválido! Verifique se digitou corretamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            x = true;
                         }
+                    }
+                    if (x == false) {
+                        JOptionPane.showMessageDialog(null, "Usuário inválido! Verifique se digitou corretamente.", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Usuário inválido! Verifique se digitou corretamente.", "Erro", JOptionPane.ERROR_MESSAGE);

@@ -3,6 +3,7 @@ package laisvarela_trabalho1;
 import java.time.LocalDate;
 
 public class Client {
+
     private String nome;
     private String cpf;
     private String email;
@@ -15,8 +16,8 @@ public class Client {
     private String login;
     private String senha;
 
-    public Client(String nome, String cpf, String email, String celular, 
-            String endereco, int numero, String pagamento, String bandeira, 
+    public Client(String nome, String cpf, String email, String celular,
+            String endereco, int numero, String pagamento, String bandeira,
             LocalDate dataNasci, String login, String senha) {
         this.nome = nome;
         this.cpf = cpf;
@@ -30,9 +31,10 @@ public class Client {
         this.login = login;
         this.senha = senha;
     }
-     public Client(String nome, String cpf, String email, 
-             String celular, String endereco, int numero, String pagamento, 
-             LocalDate dataNasci, String login, String senha) {
+
+    public Client(String nome, String cpf, String email,
+            String celular, String endereco, int numero, String pagamento,
+            LocalDate dataNasci, String login, String senha) {
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
@@ -45,10 +47,8 @@ public class Client {
         this.senha = senha;
     }
 
-    public Client(String nome, String cpf, String pagamento, String senha) {
-        this.nome = nome;
+    public Client(String cpf, String senha) {
         this.cpf = cpf;
-        this.pagamento = pagamento;
         this.senha = senha;
     }
 
@@ -139,6 +139,5 @@ public class Client {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
-    
+
 }

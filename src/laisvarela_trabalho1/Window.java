@@ -32,7 +32,7 @@ public class Window extends javax.swing.JFrame {
         produtoList.add(produto);
         produto = new Produto("abacate", "a14c65", 15f, LocalDate.of(2023, 10, 21));
         produtoList.add(produto);
-        Client cliente = new Client("joão", "111.111.111-11", "boleto", "1");
+        Client cliente = new Client("111.111.111-11", "1");
         clientList.add(cliente);
     }
 

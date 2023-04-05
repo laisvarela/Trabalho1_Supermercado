@@ -744,11 +744,11 @@ public class Panel_ADM extends javax.swing.JPanel {
     }//GEN-LAST:event_bt_fecharCadastroMouseClicked
     
     private String texto() {
-        // método para evitar a exceção de que nada está selecionado
-        String texto = null;
+        String texto = "";
         try {
             texto = tree_sistema.getLastSelectedPathComponent().toString();
         } catch (Exception ex) {
+            System.out.println("");
         }
         return texto;
     }
