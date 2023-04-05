@@ -12,7 +12,6 @@ public class Window extends javax.swing.JFrame {
     static Panel_Cliente inicioClient;
     static protected String loginADM = "000.000.000-00";
     static protected String senhaADM = "1234";
-    static protected String emailADM = "adm@gmail.com";
     static protected LinkedList<Client> clientList = new LinkedList<>();
     static protected LinkedList<Produto> produtoList = new LinkedList<>();
 
@@ -28,9 +27,9 @@ public class Window extends javax.swing.JFrame {
         Window w = new Window();
         w.setVisible(true);
         w.setLocationRelativeTo(null);
-        Produto produto = new Produto("banana", "b123t4", 10f, LocalDate.of(2023, 05, 21));
+        Produto produto = new Produto("banana", "b123t4", 10f, LocalDate.of(2023, 05, 21), 1);
         produtoList.add(produto);
-        produto = new Produto("abacate", "a14c65", 15f, LocalDate.of(2023, 10, 21));
+        produto = new Produto("abacate", "a14c65", 15f, LocalDate.of(2023, 10, 21), 3);
         produtoList.add(produto);
         Client cliente = new Client("111.111.111-11", "1");
         clientList.add(cliente);

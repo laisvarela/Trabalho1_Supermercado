@@ -8,12 +8,25 @@ public class Produto {
     private String codigo;
     private Float valor;
     private LocalDate dataValidade;
+    private int qtd;
 
-    public Produto(String nome, String codigo, Float valor, LocalDate dataValidade) {
+    public int getQtd() {
+        return qtd;
+    }
+
+    public void setQtd(int qtd) {
+        this.qtd = qtd;
+    }
+
+    public Produto(String nome, String codigo, Float valor, LocalDate dataValidade, int qtd) {
         this.nome = nome;
         this.codigo = codigo;
         this.valor = valor;
         this.dataValidade = dataValidade;
+        this.qtd = qtd;
+    }
+
+    public Produto() {
     }
 
     public LocalDate getDataValidade() {

@@ -302,11 +302,20 @@ public class Panel_Login extends javax.swing.JPanel {
                     for (Client item : Window.clientList) {
                         if (txt_user.getText().equals(item.getCpf())) {
                             if ((String.valueOf(txt_senha.getPassword()).equals(item.getSenha()))) {
-                                Window.inicioClient = new Panel_Cliente();
-                                janela = (JFrame) SwingUtilities.getWindowAncestor(this);
-                                janela.remove(Window.login);
-                                janela.add(Window.inicioClient);
-                                janela.pack();
+                                if (!Window.produtoList.isEmpty()) {
+                                    Window.inicioClient = new Panel_Cliente();
+                                    janela = (JFrame) SwingUtilities.getWindowAncestor(this);
+                                    janela.remove(Window.login);
+                                    janela.add(Window.inicioClient);
+                                    janela.pack();
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "Nenhum produto cadastrado!", "Erro", JOptionPane.ERROR_MESSAGE);
+                                    txt_user.setText(null);
+                                    txt_senha.setText(null);
+                                    pn_login.setVisible(true);
+                                    pn_senha.setVisible(false);
+                                }
+
                             } else {
                                 // a senha não corresponde ao usuário
                                 JOptionPane.showMessageDialog(null, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);

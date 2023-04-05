@@ -43,7 +43,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="pn_login" max="32767" attributes="0"/>
-                      <Component id="pn_senha" max="32767" attributes="0"/>
+                      <Component id="pn_senha" pref="287" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jSeparator1" max="32767" attributes="0"/>

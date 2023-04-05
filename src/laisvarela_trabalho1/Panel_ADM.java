@@ -665,7 +665,7 @@ public class Panel_ADM extends javax.swing.JPanel {
                     }
                     if (camposVazios == false) { // cria objeto Produto -> adiciona na lista de produto -> atualiza a JTree -> limpa todos os campos
                         Produto produto = new Produto(txt_produtoNome.getText(), txt_codigo.getText(),
-                                Float.parseFloat(txt_valor.getText()), LocalDate.parse(txt_data.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                                Float.parseFloat(txt_valor.getText()), LocalDate.parse(txt_data.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")), 1);
                         Window.produtoList.add(produto);
                         atualizaTree();
                         limpar();
