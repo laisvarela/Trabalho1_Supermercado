@@ -106,7 +106,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
         });
         tb_produtos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tb_produtos.setGridColor(new java.awt.Color(51, 102, 0));
-        tb_produtos.setSelectionBackground(new java.awt.Color(204, 0, 0));
+        tb_produtos.setSelectionBackground(new java.awt.Color(255, 255, 255));
         tb_produtos.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tb_produtos);
         if (tb_produtos.getColumnModel().getColumnCount() > 0) {
@@ -304,9 +304,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
         for (Produto item : Window.produtoList) {
             if (rowProdtuo.equals(item.getNome())) {
                 item.setQtd(50);
-                modelo.removeRow(row);
-                modelo.addRow(new Object[]{item.getNome(), item.getDataValidade().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                    item.getValor(), false, item.getQtd()});
+                modelo.setValueAt(item.getQtd(), row, 4);
             }
         }
     }
