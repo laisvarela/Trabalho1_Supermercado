@@ -1,6 +1,5 @@
 package laisvarela_trabalho1;
 
-import java.time.format.DateTimeFormatter;
 import javax.swing.table.DefaultTableModel;
 
 public class Panel_NotaFiscal extends javax.swing.JPanel {
@@ -16,7 +15,7 @@ public class Panel_NotaFiscal extends javax.swing.JPanel {
                 lb_cpf.setText(client.getCpf());
                 for (Supermercado supermercado : Panel_Cliente.carrinho) {
                     modelo.addRow(new Object[]{supermercado.getNome(),
-                        supermercado.getQtd(), supermercado.getValor(),});
+                        supermercado.getQtd(), supermercado.getValor(), supermercado.getValor()*supermercado.getQtd(),});
                     lb_total.setText(String.valueOf(supermercado.getTotal()));
                 }
             }
@@ -89,14 +88,14 @@ public class Panel_NotaFiscal extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Nome", "Quantidade", "Total do produto"
+                "Nome", "Quantidade", "Preço", "Total"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Float.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -113,6 +112,7 @@ public class Panel_NotaFiscal extends javax.swing.JPanel {
             tb_produtos.getColumnModel().getColumn(0).setResizable(false);
             tb_produtos.getColumnModel().getColumn(1).setResizable(false);
             tb_produtos.getColumnModel().getColumn(2).setResizable(false);
+            tb_produtos.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
