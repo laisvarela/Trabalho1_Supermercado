@@ -2,7 +2,6 @@ package laisvarela_trabalho1;
 
 import java.awt.BorderLayout;
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.LinkedList;
 
 public class Window extends javax.swing.JFrame {
@@ -11,11 +10,12 @@ public class Window extends javax.swing.JFrame {
     static Panel_Login login;
     static Panel_ADM inicioADM;
     static Panel_Cliente inicioClient;
+    static Panel_NotaFiscal notaFiscal;
     static protected String loginADM = "000.000.000-00";
     static protected String senhaADM = "1234";
     static protected LinkedList<Client> clientList = new LinkedList<>();
     static protected LinkedList<Produto> produtoList = new LinkedList<>();
-    static String user, pagamento;
+    static String user, pagamento, bandeira, cpf;
 
     public Window() {
         initComponents();
@@ -29,9 +29,9 @@ public class Window extends javax.swing.JFrame {
         Window w = new Window();
         w.setVisible(true);
         w.setLocationRelativeTo(null);
-        Produto produto = new Produto("banana", "b123t4", 10f, LocalDate.of(2023, 05, 21), 1);
+        Produto produto = new Produto("banana", "b123t4", 6.47f, LocalDate.of(2023, 05, 21), 1);
         produtoList.add(produto);
-        produto = new Produto("abacate", "a14c65", 15f, LocalDate.of(2023, 10, 21), 3);
+        produto = new Produto("abacate", "a14c65", 8.16f, LocalDate.of(2023, 10, 21), 3);
         produtoList.add(produto);
         
         Client cliente = new Client("Geraldo", "111.111.111-11", "geraldo@email.com",

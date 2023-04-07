@@ -14,15 +14,16 @@ public class Supermercado {
     public Supermercado() {
     }
 
-    public Supermercado(String nome, String codigo, LocalDate validade, float valor, int qtd) {
+    public Supermercado(String nome, String codigo, LocalDate validade, float valor, int qtd, float total) {
         this.nome = nome;
         this.codigo = codigo;
         this.validade = validade;
         this.valor = valor;
         this.qtd = qtd;
+        this.total = total;
     }
 
-    public float getTotal() {
+    public Float getTotal() {
         return total;
     }
 

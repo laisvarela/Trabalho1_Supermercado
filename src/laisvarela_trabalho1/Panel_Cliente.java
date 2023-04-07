@@ -1,5 +1,7 @@
 package laisvarela_trabalho1;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
@@ -11,14 +13,14 @@ import javax.swing.table.DefaultTableModel;
 public class Panel_Cliente extends javax.swing.JPanel {
 
     DefaultTableModel modelo = new DefaultTableModel();
-    LinkedList<Supermercado> carrinho = new LinkedList<>();
-    LinkedList<Float> totalList = new LinkedList<>();
+    static LinkedList<Supermercado> carrinho = new LinkedList<>();
     Supermercado sm = new Supermercado();
 
     public Panel_Cliente() {
         initComponents();
         lb_user.setText(Window.user); // atualiza nome do usuário
         lb_pagamento.setText(Window.pagamento); // atualiza label de pagamento
+        lb_bandeira.setText(Window.bandeira); // atualiza label de bandeira
 
         modelo = (DefaultTableModel) tb_produtos.getModel();
         for (Produto item : Window.produtoList) {
@@ -51,6 +53,13 @@ public class Panel_Cliente extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         lb_total = new javax.swing.JLabel();
+        lb_bandeira = new javax.swing.JLabel();
+        pn_pagamento = new javax.swing.JPanel();
+        lb_pagamento1 = new javax.swing.JLabel();
+        cb_pagamento = new javax.swing.JComboBox<>();
+        lb_bandeira1 = new javax.swing.JLabel();
+        cb_bandeira = new javax.swing.JComboBox<>();
+        bt_salvar = new javax.swing.JButton();
 
         menu_delogar.setText("jMenuItem1");
         pop_deslogar.add(menu_delogar);
@@ -217,16 +226,21 @@ public class Panel_Cliente extends javax.swing.JPanel {
         lb_total.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         lb_total.setText("0.0");
 
+        lb_bandeira.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        lb_bandeira.setText("b");
+
         javax.swing.GroupLayout pn_totalLayout = new javax.swing.GroupLayout(pn_total);
         pn_total.setLayout(pn_totalLayout);
         pn_totalLayout.setHorizontalGroup(
             pn_totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_totalLayout.createSequentialGroup()
-                .addGap(0, 10, Short.MAX_VALUE)
+                .addGap(0, 7, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lb_pagamento)
-                .addGap(20, 20, 20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lb_bandeira)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bt_alterar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bt_confirmar))
@@ -244,12 +258,95 @@ public class Panel_Cliente extends javax.swing.JPanel {
                 .addGroup(pn_totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(lb_total))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pn_totalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_confirmar)
                     .addComponent(bt_alterar)
                     .addComponent(lb_pagamento)
-                    .addComponent(jLabel7)))
+                    .addComponent(jLabel7)
+                    .addComponent(lb_bandeira)))
+        );
+
+        pn_pagamento.setVisible(false);
+        cb_bandeira.setVisible(false);
+        lb_bandeira1.setVisible(false);
+        cb_pagamento.addItem("Boleto");
+        cb_pagamento.addItem("Cartão");
+        cb_pagamento.addItem("Pix");
+        cb_bandeira.addItem("Débito - Visa");
+        cb_bandeira.addItem("Crédito - Visa");
+        cb_bandeira.addItem("Débido - Mastercard");
+        cb_bandeira.addItem("Crédito - Mastercard");
+        cb_bandeira.addItem("Débido - Elo");
+        cb_bandeira.addItem("Crédito - Elo");
+        pn_pagamento.setBackground(new java.awt.Color(255, 255, 255));
+
+        lb_pagamento1.setFont(new java.awt.Font("Yu Gothic UI", 1, 11)); // NOI18N
+        lb_pagamento1.setText("Forma de pagamento:");
+
+        cb_pagamento.setBackground(new java.awt.Color(255, 255, 255));
+        cb_pagamento.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        cb_pagamento.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.pink, java.awt.Color.lightGray));
+        cb_pagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cb_pagamentoActionPerformed(evt);
+            }
+        });
+
+        lb_bandeira1.setFont(new java.awt.Font("Yu Gothic UI", 1, 11)); // NOI18N
+        lb_bandeira1.setText("Bandeira:");
+
+        cb_bandeira.setVisible(false);
+        cb_bandeira.setBackground(new java.awt.Color(255, 255, 255));
+        cb_bandeira.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        cb_bandeira.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.pink, java.awt.Color.lightGray));
+
+        bt_salvar.setBackground(new java.awt.Color(255, 255, 255));
+        bt_salvar.setFont(new java.awt.Font("Yu Gothic UI", 0, 11)); // NOI18N
+        bt_salvar.setText("Salvar");
+        bt_salvar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bt_salvarMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pn_pagamentoLayout = new javax.swing.GroupLayout(pn_pagamento);
+        pn_pagamento.setLayout(pn_pagamentoLayout);
+        pn_pagamentoLayout.setHorizontalGroup(
+            pn_pagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_pagamentoLayout.createSequentialGroup()
+                .addContainerGap(265, Short.MAX_VALUE)
+                .addComponent(bt_salvar)
+                .addContainerGap())
+            .addGroup(pn_pagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pn_pagamentoLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(pn_pagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(cb_pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lb_pagamento1))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pn_pagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lb_bandeira1)
+                        .addComponent(cb_bandeira, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap()))
+        );
+        pn_pagamentoLayout.setVerticalGroup(
+            pn_pagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pn_pagamentoLayout.createSequentialGroup()
+                .addContainerGap(97, Short.MAX_VALUE)
+                .addComponent(bt_salvar)
+                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(pn_pagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pn_pagamentoLayout.createSequentialGroup()
+                    .addGap(21, 21, 21)
+                    .addGroup(pn_pagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lb_pagamento1)
+                        .addComponent(lb_bandeira1))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(pn_pagamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cb_pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cb_bandeira, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(69, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -270,7 +367,8 @@ public class Panel_Cliente extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(pn_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pn_pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pn_qtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -283,8 +381,10 @@ public class Panel_Cliente extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pn_qtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(pn_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pn_pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
@@ -294,11 +394,29 @@ public class Panel_Cliente extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_alterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_alterarMouseClicked
-        
+        pn_total.setVisible(false);
+        pn_pagamento.setVisible(true);
     }//GEN-LAST:event_bt_alterarMouseClicked
 
     private void bt_confirmarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_confirmarMouseClicked
+        Object[] opcoes = {"Sim", "Não"};
+        int opcaoSelecionada = JOptionPane.showOptionDialog(null, "Deseja confirmar compra?", "Confirmação",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes);
+        switch (opcaoSelecionada) {
+            case 0 -> {
+                if (!carrinho.isEmpty()) {
+                    Window.notaFiscal = new Panel_NotaFiscal();
+                    JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
+                    janela.remove(Window.inicioClient);
+                    janela.add(Window.notaFiscal);
+                    janela.pack();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Nenhum item no carrinho!", "Erro",
+                            JOptionPane.ERROR_MESSAGE);
+                }
 
+            }
+        }
     }//GEN-LAST:event_bt_confirmarMouseClicked
 
     private void bt_sairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_sairMouseClicked
@@ -320,7 +438,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
     private int checarRowSelecionado(String operador) {
         int row = tb_produtos.getSelectedRow(); // obtem a linha selecionada
         Object rowProdtuo = null, rowValor = null;
-
+        BigDecimal arredondar;
         float x = 0; // calculo do total {valor*qtd}
         boolean check = (boolean) modelo.getValueAt(row, 4);
         if (tb_produtos.isRowSelected(row)) { // verifica se a linha está seleciodada
@@ -343,7 +461,9 @@ public class Panel_Cliente extends javax.swing.JPanel {
                                     supermercado.setQtd(supermercado.getQtd() + 1);
                                     if (rowValor.equals(supermercado.getValor()) && check == true) {
                                         sm.setTotal(sm.getTotal() + supermercado.getValor());
-                                        lb_total.setText(String.valueOf(sm.getTotal()));
+                                        arredondar = BigDecimal.valueOf(sm.getTotal()).setScale(2, RoundingMode.HALF_UP);
+                                        lb_total.setText(String.valueOf(arredondar));
+                                        supermercado.setTotal(Float.parseFloat(lb_total.getText()));
                                     }
                                 }
                             }
@@ -365,9 +485,10 @@ public class Panel_Cliente extends javax.swing.JPanel {
                                         supermercado.setQtd(supermercado.getQtd() - 1);
                                         if (rowValor.equals(supermercado.getValor()) && check == true) {
                                             sm.setTotal(sm.getTotal() - supermercado.getValor());
-                                            lb_total.setText(String.valueOf(sm.getTotal()));
+                                            arredondar = BigDecimal.valueOf(sm.getTotal()).setScale(2, RoundingMode.HALF_UP);
+                                            lb_total.setText(String.valueOf(arredondar));
+                                            supermercado.setTotal(Float.parseFloat(lb_total.getText()));
                                         }
-
                                     }
                                 }
                             }
@@ -387,7 +508,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
                     if (adiciona == false) { // adiciona na lista 
                         Supermercado supermercado = new Supermercado((String) modelo.getValueAt(row, 0),
                                 (String) modelo.getValueAt(row, 1), LocalDate.parse((CharSequence) modelo.getValueAt(row, 2), DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                                (float) modelo.getValueAt(row, 3), (int) modelo.getValueAt(row, 5));
+                                (float) modelo.getValueAt(row, 3), (int) modelo.getValueAt(row, 5), Float.parseFloat(lb_total.getText()));
                         carrinho.add(supermercado);
                     }
 
@@ -395,27 +516,38 @@ public class Panel_Cliente extends javax.swing.JPanel {
                         x = total((float) modelo.getValueAt(row, 3), (int) modelo.getValueAt(row, 5));
                         sm.setTotal(x);
                         lb_total.setText(String.valueOf(sm.getTotal()));
+                        for (Supermercado item : carrinho) {
+                            if (rowProdtuo.equals(item.getCodigo())) { 
+                                item.setTotal(Float.parseFloat(lb_total.getText()));
+                            }
+                        }
                     } else if (adiciona == false) {
                         x = total((float) modelo.getValueAt(row, 3), (int) modelo.getValueAt(row, 5));
                         sm.setTotal(sm.getTotal() + x);
-                        lb_total.setText(String.valueOf(sm.getTotal()));
+                        arredondar = BigDecimal.valueOf(sm.getTotal()).setScale(2, RoundingMode.HALF_UP);
+                        lb_total.setText(String.valueOf(arredondar));
+                        for (Supermercado item : carrinho) { 
+                            if (rowProdtuo.equals(item.getCodigo())) { 
+                                item.setTotal(Float.parseFloat(lb_total.getText()));
+                            }
+                        }
                     }
 
                 } else {
                     if (!carrinho.isEmpty()) {
                         for (Supermercado item : carrinho) {
                             if (rowValor.equals(item.getValor())) {
-                                carrinho.remove(item);
                                 x = total(item.getValor(), item.getQtd());
                                 sm.setTotal(sm.getTotal() - x);
-                                lb_total.setText(String.valueOf(sm.getTotal()));
+                                arredondar = BigDecimal.valueOf(sm.getTotal()).setScale(2, RoundingMode.HALF_UP);
+                                lb_total.setText(String.valueOf(arredondar));
+                                item.setTotal(Float.parseFloat(lb_total.getText()));
+                                carrinho.remove(item);
                             }
                         }
                     }
-
                 }
             }
-
         }
         return row;
     }
@@ -440,24 +572,58 @@ public class Panel_Cliente extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tb_produtosMouseClicked
 
+    private void cb_pagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_pagamentoActionPerformed
+        if (cb_pagamento.getSelectedItem().equals("Cartão")) {
+            lb_bandeira.setVisible(true);
+            cb_bandeira.setVisible(true);
+        }
+    }//GEN-LAST:event_cb_pagamentoActionPerformed
+
+    private void bt_salvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_salvarMouseClicked
+        for (Client cliente : Window.clientList) {
+            if (cliente.getCpf().equals(Window.cpf)) {
+                if (cb_pagamento.getSelectedItem().equals("Cartão")) {
+                    cliente.setPagamento((String) cb_pagamento.getSelectedItem());
+                    cliente.setBandeira((String) cb_bandeira.getSelectedItem());
+                    lb_bandeira.setText(cliente.getBandeira());
+                    lb_pagamento.setText(cliente.getPagamento());
+                } else {
+                    cliente.setPagamento((String) cb_pagamento.getSelectedItem());
+                    lb_pagamento.setText(cliente.getPagamento());
+                }
+            }
+        }
+        pn_total.setVisible(true);
+        pn_pagamento.setVisible(false);
+    }//GEN-LAST:event_bt_salvarMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_alterar;
+    private javax.swing.JButton bt_cancelar;
+    private javax.swing.JButton bt_cancelar1;
     private javax.swing.JButton bt_confirmar;
     private javax.swing.JButton bt_qtdSomar;
     private javax.swing.JButton bt_qtdSubtrair;
     private javax.swing.JButton bt_sair;
+    private javax.swing.JButton bt_salvar;
+    private javax.swing.JComboBox<String> cb_bandeira;
+    private javax.swing.JComboBox<String> cb_pagamento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lb_bandeira;
+    private javax.swing.JLabel lb_bandeira1;
     private javax.swing.JLabel lb_pagamento;
+    private javax.swing.JLabel lb_pagamento1;
     private javax.swing.JLabel lb_qtd;
     private javax.swing.JLabel lb_total;
     private javax.swing.JLabel lb_user;
     private javax.swing.JMenuItem menu_delogar;
+    private javax.swing.JPanel pn_pagamento;
     private javax.swing.JPanel pn_qtd;
     private javax.swing.JPanel pn_total;
     private javax.swing.JPopupMenu pop_deslogar;

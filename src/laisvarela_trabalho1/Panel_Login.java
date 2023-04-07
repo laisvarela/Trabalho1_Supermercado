@@ -303,9 +303,11 @@ public class Panel_Login extends javax.swing.JPanel {
                         if (txt_user.getText().equals(item.getCpf())) {
                             if ((String.valueOf(txt_senha.getPassword()).equals(item.getSenha()))) {
                                 Window.user = item.getLogin();
+                                Window.cpf = item.getCpf();
                                 Window.pagamento = item.getPagamento();
-                                if (Window.pagamento.equalsIgnoreCase("cartão")) {
-                                    Window.pagamento = item.getPagamento() + " - " + item.getBandeira();
+                                if (Window.pagamento.equals("Cartão")) {
+                                    Window.pagamento = item.getPagamento();
+                                    Window.bandeira = item.getBandeira();
                                 }
                                 if (!Window.produtoList.isEmpty()) {
                                     Window.inicioClient = new Panel_Cliente();
