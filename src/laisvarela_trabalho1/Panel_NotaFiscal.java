@@ -3,9 +3,9 @@ package laisvarela_trabalho1;
 import javax.swing.table.DefaultTableModel;
 
 public class Panel_NotaFiscal extends javax.swing.JPanel {
-    
+
     DefaultTableModel modelo = new DefaultTableModel();
-    
+
     public Panel_NotaFiscal() {
         initComponents();
         modelo = (DefaultTableModel) tb_produtos.getModel();
@@ -15,13 +15,13 @@ public class Panel_NotaFiscal extends javax.swing.JPanel {
                 lb_cpf.setText(client.getCpf());
                 for (Supermercado supermercado : Panel_Cliente.carrinho) {
                     modelo.addRow(new Object[]{supermercado.getNome(),
-                        supermercado.getQtd(), supermercado.getValor(), supermercado.getValor()*supermercado.getQtd(),});
+                        supermercado.getQtd(), supermercado.getValor(), supermercado.getValor() * supermercado.getQtd(),});
                     lb_total.setText(String.valueOf(supermercado.getTotal()));
                 }
             }
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -207,7 +207,6 @@ public class Panel_NotaFiscal extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bt_sairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_sairMouseClicked
-        
         System.exit(0);
     }//GEN-LAST:event_bt_sairMouseClicked
 

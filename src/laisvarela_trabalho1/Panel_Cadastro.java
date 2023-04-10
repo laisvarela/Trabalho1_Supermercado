@@ -121,7 +121,7 @@ public class Panel_Cadastro extends javax.swing.JPanel {
 
         bt_cancelar.setBackground(new java.awt.Color(255, 255, 255));
         bt_cancelar.setFont(new java.awt.Font("Yu Gothic UI", 0, 11)); // NOI18N
-        bt_cancelar.setText("Cancelar");
+        bt_cancelar.setText("< Voltar");
         bt_cancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 bt_cancelarMouseClicked(evt);
@@ -415,7 +415,7 @@ public class Panel_Cadastro extends javax.swing.JPanel {
                         LocalDate.parse(fTxt_dataNasci.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                     } catch (DateTimeParseException e) {
                         // checa se dia/mês/ano são existentes
-                        // se não, camposVazios = true e impede o erro de LocalDate.parse no if (x = falase)
+                        // se não, camposVazios = true e impede o erro de LocalDate.parse
                         camposVazios = true;
                         JOptionPane.showMessageDialog(null, "Data de nascimento não existe!", "Erro", JOptionPane.ERROR_MESSAGE);
                         fTxt_dataNasci.setValue("");
@@ -456,7 +456,7 @@ public class Panel_Cadastro extends javax.swing.JPanel {
                             txt_login.getText(), txt_senha.getText());
                     Window.clientList.add(client);
                     limpar();
-                } else { // bandeira não precisa de valor atribuito
+                } else { // bandeira não precisa de valor atribuido
                     client = new Client(txt_nome.getText(), fTxt_cpf.getText(), txt_email.getText(), fTxt_celular.getText(),
                             txt_endereco.getText(), Integer.parseInt(fTxt_numero.getText()),
                             cb_pagamento.getSelectedItem().toString(), LocalDate.parse(fTxt_dataNasci.getText(),
@@ -476,7 +476,11 @@ public class Panel_Cadastro extends javax.swing.JPanel {
     }//GEN-LAST:event_bt_cadastroMouseClicked
 
     private void bt_cancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_cancelarMouseClicked
-        System.exit(0);
+        Window.login = new Panel_Login();
+        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
+        janela.remove(Window.cadastro);
+        janela.add(Window.login);
+        janela.pack();
     }//GEN-LAST:event_bt_cancelarMouseClicked
 
     private void cb_pagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_pagamentoActionPerformed

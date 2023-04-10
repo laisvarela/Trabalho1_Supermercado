@@ -12,7 +12,7 @@ public class Window extends javax.swing.JFrame {
     static Panel_Cliente inicioClient;
     static Panel_NotaFiscal notaFiscal;
     static protected String loginADM = "000.000.000-00";
-    static protected String senhaADM = "1234";
+    static protected String senhaADM = "0";
     static protected LinkedList<Client> clientList = new LinkedList<>();
     static protected LinkedList<Produto> produtoList = new LinkedList<>();
     static String user, pagamento, bandeira, cpf;
@@ -29,9 +29,9 @@ public class Window extends javax.swing.JFrame {
         Window w = new Window();
         w.setVisible(true);
         w.setLocationRelativeTo(null);
-        Produto produto = new Produto("banana", "b123t4", 6.47f, LocalDate.of(2023, 05, 21), 1);
+        Produto produto = new Produto("banana", "b123t4", 4.45f, LocalDate.of(2023, 05, 21), 1);
         produtoList.add(produto);
-        produto = new Produto("abacate", "a14c65", 8.16f, LocalDate.of(2023, 10, 21), 3);
+        produto = new Produto("abacate", "a14c65", 5.35f, LocalDate.of(2023, 10, 21), 3);
         produtoList.add(produto);
         
         Client cliente = new Client("Geraldo", "111.111.111-11", "geraldo@email.com",
@@ -41,7 +41,7 @@ public class Window extends javax.swing.JFrame {
         
         // cliente com pagamento em cartão
         cliente = new Client("Lais Varela", "222.222.222-22", "lais@ifsc.aluno.com",
-                "(49) 9 9999-9999", "ifsc", 1, "cartão", "Débido - Mastercard",
+                "(49) 9 9999-9999", "ifsc", 2, "cartão", "Débido - Mastercard",
                 LocalDate.of(1999, 06, 21), "Lais", "2");
         clientList.add(cliente);
     }

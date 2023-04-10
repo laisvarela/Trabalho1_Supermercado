@@ -706,7 +706,7 @@ public class Panel_ADM extends javax.swing.JPanel {
         DefaultMutableTreeNode clientesFilho = new DefaultMutableTreeNode("Nenhum cliente cadastrado."); // nodo filho do nodo Clientes
         if (Window.clientList.isEmpty()) {
             nodeClientes.add(clientesFilho);
-        } else if (texto().equals("Nenhum cliente cadastrado.") && !Window.clientList.isEmpty()) {
+        } else if (texto().equals("Nenhum cliente cadastrado.") && !Window.clientList.isEmpty()) { // remove o nodo filho com a string texto() e adiciona os clientes, caso a lista não esteja vazia
             nodeClientes.removeAllChildren();
             for (Client item : Window.clientList) { // adiciona lista de clientes no nodo
                 clientesFilho = new DefaultMutableTreeNode();
@@ -743,7 +743,7 @@ public class Panel_ADM extends javax.swing.JPanel {
         pn_cadastroProduto.setVisible(false);
     }//GEN-LAST:event_bt_fecharCadastroMouseClicked
     
-    private String texto() {
+    private String texto() { // obtem o último nodo
         String texto = "";
         try {
             texto = tree_sistema.getLastSelectedPathComponent().toString();

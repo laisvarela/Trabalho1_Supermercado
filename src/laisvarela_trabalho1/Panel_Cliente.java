@@ -449,6 +449,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
             lb_qtd.setText(String.valueOf(valor)); // altera o valor da lb_qtd
 
             if (operador.equals("soma")) { // Verifica que o botão soma foi pressionado
+                boolean verifica = false;
                 for (Produto item : Window.produtoList) {
                     if (rowProdtuo.equals(item.getCodigo())) { // verifica se o código na linha existe na lista
                         item.setQtd(item.getQtd() + 1);
@@ -458,6 +459,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
                         if (!carrinho.isEmpty()) {
                             for (Supermercado supermercado : carrinho) {
                                 if (rowProdtuo.equals(supermercado.getCodigo())) {
+                                    verifica = true; // item existe na lista 
                                     supermercado.setQtd(supermercado.getQtd() + 1);
                                     if (rowValor.equals(supermercado.getValor()) && check == true) {
                                         sm.setTotal(sm.getTotal() + supermercado.getValor());
@@ -467,20 +469,29 @@ public class Panel_Cliente extends javax.swing.JPanel {
                                     }
                                 }
                             }
+                            
+                            if (verifica == false) { // item não existe na lista carrinho -> adiciona o item
+                                // o item é removido da lista caso a qtd = 0, dessa forma, é preciso adicionar novamente
+                                Supermercado supermercado = new Supermercado((String) modelo.getValueAt(row, 0),
+                                        (String) modelo.getValueAt(row, 1), LocalDate.parse((CharSequence) modelo.getValueAt(row, 2), DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                                        (float) modelo.getValueAt(row, 3), (int) modelo.getValueAt(row, 5), Float.parseFloat(lb_total.getText()));
+                                carrinho.add(supermercado);
+                                checarRowSelecionado("soma");
+                            }
                         }
 
                     }
                 }
             } else if (operador.equals("subtrair")) {
                 if (valor > 0) {
-                    for (Produto item : Window.produtoList) {
+                    for (Produto item : Window.produtoList) { // atualiza qtd do obj em produtoList e na interface gráfica
                         if (rowProdtuo.equals(item.getCodigo())) {
                             item.setQtd(item.getQtd() - 1);
                             modelo.setValueAt(item.getQtd(), row, 5);
                             valor = (int) modelo.getValueAt(row, 5);
                             lb_qtd.setText(String.valueOf(valor));
                             if (!carrinho.isEmpty()) {
-                                for (Supermercado supermercado : carrinho) {
+                                for (Supermercado supermercado : carrinho) { // atualiza o valor total e a qtd na lista carrinho
                                     if (rowProdtuo.equals(supermercado.getCodigo())) {
                                         supermercado.setQtd(supermercado.getQtd() - 1);
                                         if (rowValor.equals(supermercado.getValor()) && check == true) {
@@ -488,6 +499,9 @@ public class Panel_Cliente extends javax.swing.JPanel {
                                             arredondar = BigDecimal.valueOf(sm.getTotal()).setScale(2, RoundingMode.HALF_UP);
                                             lb_total.setText(String.valueOf(arredondar));
                                             supermercado.setTotal(Float.parseFloat(lb_total.getText()));
+                                            if (supermercado.getQtd() == 0) { // remove de lista carrinho se qtd = 0
+                                                carrinho.remove(supermercado);
+                                            }
                                         }
                                     }
                                 }
@@ -505,7 +519,7 @@ public class Panel_Cliente extends javax.swing.JPanel {
                             adiciona = true;
                         }
                     }
-                    if (adiciona == false) { // adiciona na lista 
+                    if (adiciona == false) { // item não existe na lista -> adiciona na lista 
                         Supermercado supermercado = new Supermercado((String) modelo.getValueAt(row, 0),
                                 (String) modelo.getValueAt(row, 1), LocalDate.parse((CharSequence) modelo.getValueAt(row, 2), DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                                 (float) modelo.getValueAt(row, 3), (int) modelo.getValueAt(row, 5), Float.parseFloat(lb_total.getText()));
@@ -517,8 +531,11 @@ public class Panel_Cliente extends javax.swing.JPanel {
                         sm.setTotal(x);
                         lb_total.setText(String.valueOf(sm.getTotal()));
                         for (Supermercado item : carrinho) {
-                            if (rowProdtuo.equals(item.getCodigo())) { 
+                            if (rowProdtuo.equals(item.getCodigo())) {
                                 item.setTotal(Float.parseFloat(lb_total.getText()));
+                            }
+                            if (item.getQtd() == 0) {
+                                carrinho.remove(item);
                             }
                         }
                     } else if (adiciona == false) {
@@ -526,9 +543,12 @@ public class Panel_Cliente extends javax.swing.JPanel {
                         sm.setTotal(sm.getTotal() + x);
                         arredondar = BigDecimal.valueOf(sm.getTotal()).setScale(2, RoundingMode.HALF_UP);
                         lb_total.setText(String.valueOf(arredondar));
-                        for (Supermercado item : carrinho) { 
-                            if (rowProdtuo.equals(item.getCodigo())) { 
+                        for (Supermercado item : carrinho) {
+                            if (rowProdtuo.equals(item.getCodigo())) {
                                 item.setTotal(Float.parseFloat(lb_total.getText()));
+                                if (item.getQtd() == 0) {
+                                    carrinho.remove(item);
+                                }
                             }
                         }
                     }
@@ -557,7 +577,6 @@ public class Panel_Cliente extends javax.swing.JPanel {
     }
     private void bt_qtdSomarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_qtdSomarMouseClicked
         checarRowSelecionado("soma");
-
     }//GEN-LAST:event_bt_qtdSomarMouseClicked
 
     private void bt_qtdSubtrairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bt_qtdSubtrairMouseClicked
